@@ -1,0 +1,43 @@
+version: '3.9'
+services:
+  mysqldb:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: 'pokemon'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-db:/var/lib/mysql
+    networks:
+      - mysql-database
+    restart: always
+  phpmyadmin:
+    depends_on:
+      - mysqldb
+    image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
+    container_name: mysqladmin
+    environment:
+      PMA_HOST: mysqldb
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - "8080:80"
+    networks:
+      - mysql-database
+
+volumes:
+        mysql-db:
+networks:
+  mysql-database:
+    driver: bridge
+
+
+#docker-compose down  # Stop container on current dir if there is a docker-compose.yml
+#docker rm -fv $(docker ps -aq)  # Remove all containers
+#sudo lsof -i -P -n | grep <port number>  # List who's using the port
+#
+#
+

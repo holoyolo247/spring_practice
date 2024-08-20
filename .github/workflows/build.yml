@@ -1,0 +1,29 @@
+name: build
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/**
+
+
+jobs:
+  unit-test:
+    defaults:
+      run:
+        shell: bash
+        # Define the working directory for all run steps in the workflow
+        working-directory: ./src
+        # Specify the OS we want the workflow to run on
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v2
+
+  linting:
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./src
+    runs-on: unbuntu-latest
